@@ -4,7 +4,7 @@ import time
 import numpy as np
 
 root = Tk()
-root.title("Морская раковина")
+root.title("Тор с изменяемой формой")
 root.geometry("640x600")
 root.resizable(False, False)
 
@@ -15,41 +15,37 @@ HEIGHT = 481
 
 def changeAlpha(val):
     global polys
-    polys = genPolys(seashell, 2 * pi, 0, 6 * pi, PRECISION, float(alpha.get()), float(beta.get()))
+    polys = genPolys(torrus, 2 * pi, 2 * pi, PRECISION, float(alpha.get()), float(beta.get()))
     draw()
 
 def changeBeta(val):
     global polys
-    polys = genPolys(seashell, 2 * pi, 0, 6 * pi, PRECISION, float(alpha.get()), float(beta.get()))
+    polys = genPolys(torrus, 2 * pi, 2 * pi, PRECISION, float(alpha.get()), float(beta.get()))
     draw()
 
 canvas = Canvas(bg="white", width=WIDTH, height=HEIGHT)
-alpha = Scale(orient=HORIZONTAL, length=200, from_=0.1, to=.5, resolution=0.05, command=changeAlpha)
-beta = Scale(orient=HORIZONTAL, length=200, from_=0.05, to=0.2, resolution=0.01, command=changeBeta)
+alpha = Scale(orient=HORIZONTAL, length=200, from_=2.0, to=5.0, resolution=0.3, command=changeAlpha)
+beta = Scale(orient=HORIZONTAL, length=200, from_=0.5, to=2.0, resolution=0.1, command=changeBeta)
 alpha.pack(anchor=CENTER, expand=1)
 beta.pack(anchor=CENTER, expand=1)
 canvas.pack(anchor=CENTER, expand=1)
 
-def seashell(u, v, alpha, beta):
-    return np.array([alpha * exp(beta * v) * cos(v) * (1 + cos(u)), alpha * exp(beta * v) * sin(v) * (1 + cos(u)), alpha * exp(beta * v) * sin(u)])
+def torrus(u, v, alpha, beta):
+    return np.array([(alpha + beta * cos(v) ) * cos(u), (alpha + beta * cos(v)) * sin(u), beta * sin(v)])
 
-def genPolys(f, maxU, minV, maxV, precision, alpha, beta):
+def genPolys(f, maxU, maxV, precision, alpha, beta):
     polys = []
     for t1 in range(precision):
         for t2 in range(precision):
             polys.append((
-                    f(((t1) * maxU / precision), ((t2 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1) * maxU / precision), ((t2 + 1 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1+1) * maxU / precision), ((t2 + 1 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    ))
-            polys.append((
-                    f(((t1) * maxU / precision), ((t2 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1+ 1) * maxU / precision), ((t2 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1+1) * maxU / precision), ((t2 + 1 - precision / 2) * (maxV - minV) / precision), alpha, beta),
+                    f(((t1) * maxU / precision), ((t2) * maxV / precision), alpha, beta),
+                    f(((t1) * maxU / precision), ((t2 + 1) * maxV / precision), alpha, beta),
+                    f(((t1 + 1) * maxU / precision), ((t2 + 1) * maxV / precision), alpha, beta),
+                    f(((t1+1) * maxU / precision), ((t2) * maxV / precision), alpha, beta),
                     ))
     return polys
 
-polys = genPolys(seashell, 2 * pi, 0, 6 * pi, PRECISION, float(alpha.get()), float(beta.get()))
+polys = genPolys(torrus, 2 * pi, 2 * pi, PRECISION, float(alpha.get()), float(beta.get()))
 
 def translate(point, vec):
     trMat = np.eye(4)
@@ -103,6 +99,7 @@ def drawGrid():
         ZStroke = [[-0.125, 0, i,1], [0.125, 0, i,1]]
         canvas.create_line(int(tMat.dot(ZStroke[0])[0] + WIDTH / 2),int(tMat.dot(ZStroke[0])[1] + HEIGHT / 2),int(tMat.dot(ZStroke[1])[0] + WIDTH / 2),int(tMat.dot(ZStroke[1])[1] + HEIGHT / 2))
 
+
 def draw():
     canvas.delete("all")
     drawGrid()
@@ -110,7 +107,7 @@ def draw():
     polys = sorted(polys, key = lambda x : tMat.dot(np.append(x[0], 1))[2])
     for poly in polys:
         polyProj = list(map(lambda x : tMat.dot(np.append(x, 1)[:, np.newaxis]), poly))
-        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000FF', outline='#000000')
+        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), int(polyProj[3][0] + WIDTH / 2), int(polyProj[3][1] + HEIGHT / 2), fill='#0000FF', outline='#000000')
 
 draw()
 
