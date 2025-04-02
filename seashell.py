@@ -91,8 +91,21 @@ def rotateZ(vec, phi):
 
 tMat = 64*np.eye(4)
 
+def drawGrid():
+    for i in range(21):
+        Xline = [[-10, -10 + i, 0, 1],[10,-10 + i,0, 1]]
+        Yline = [[10 - i, -10, 0, 1],[10 - i,10,0, 1]]
+        Zline = [[0, 0, 10, 1],[0,0,-10, 1]]
+        canvas.create_line(int(tMat.dot(Xline[0])[0] + WIDTH / 2),int(tMat.dot(Xline[0])[1] + HEIGHT / 2),int(tMat.dot(Xline[1])[0] + WIDTH / 2),int(tMat.dot(Xline[1])[1] + HEIGHT / 2))
+        canvas.create_line(int(tMat.dot(Yline[0])[0] + WIDTH / 2),int(tMat.dot(Yline[0])[1] + HEIGHT / 2),int(tMat.dot(Yline[1])[0] + WIDTH / 2),int(tMat.dot(Yline[1])[1] + HEIGHT / 2))
+        canvas.create_line(int(tMat.dot(Zline[0])[0] + WIDTH / 2),int(tMat.dot(Zline[0])[1] + HEIGHT / 2),int(tMat.dot(Zline[1])[0] + WIDTH / 2),int(tMat.dot(Zline[1])[1] + HEIGHT / 2))
+    for i in range(-10, 11):
+        ZStroke = [[-0.125, 0, i,1], [0.125, 0, i,1]]
+        canvas.create_line(int(tMat.dot(ZStroke[0])[0] + WIDTH / 2),int(tMat.dot(ZStroke[0])[1] + HEIGHT / 2),int(tMat.dot(ZStroke[1])[0] + WIDTH / 2),int(tMat.dot(ZStroke[1])[1] + HEIGHT / 2))
+
 def draw():
     canvas.delete("all")
+    drawGrid()
     for poly in polys:
         polyProj = list(map(lambda x : tMat.dot(np.append(x, 1)[:, np.newaxis]), poly))
         canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000FF')
