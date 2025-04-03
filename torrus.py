@@ -105,6 +105,7 @@ def drawGrid():
 
 
 def draw():
+    start = time.time()
     canvas.delete("all")
     drawGrid()
     global polys
@@ -112,6 +113,8 @@ def draw():
     for poly in polys:
         polyProj = list(map(lambda x : tMat.dot(np.append(x, 1)[:, np.newaxis]), poly))
         canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000FF', outline='#000000')
+    end = time.time()
+    print("Rendering took", end - start)
 
 draw()
 
