@@ -1,4 +1,15 @@
-# Лабораторная работа по предмету "Линейная алгебра и вычислительные модели"
+---
+lang: ru 
+header-includes: |
+    \newfontfamily{\cyrillicfont}{CMU Serif} 
+    \usepackage{titlesec}
+    \newcommand{\sectionbreak}{\clearpage}
+    \newfontfamily{\cyrillicfontrm}{CMU Serif}
+    \newfontfamily{\cyrillicfonttt}{CMU Serif}
+    \newfontfamily{\cyrillicfontsf}{CMU Serif}
+---
+
+# Лабораторная работа №1 по предмету "Линейная алгебра и вычислительные модели"
 
 Содержит 5 поверхностей, заданных параметрической функцией:
 
@@ -35,11 +46,17 @@
 
 Сначала полигоны сортируются от наиболее дальних от камеры к ближайшим, затем рисуются двумерные примитивы с точки зрения камеры, Z-координата просто игнорируется, ведь высчитанная матрица линейных преобразований перемещает точки нужным образом.
 
+
 # Иллюстрации
 
 ![Тор (полигоны прямоугольные)](./screenshots/torrus-quad.png)
+
 ![Тор](./screenshots/torrus.png)
+
 ![Морская раковина](./screenshots/seashell.png)
+
 ![Спиральная поверхность](./screenshots/screw.png)
+
 ![Поверхность Мёбиуса](./screenshots/moebius.png)
+
 ![Спираль](./screenshots/spiral.png)
