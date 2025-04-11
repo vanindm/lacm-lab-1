@@ -13,6 +13,8 @@ PRECISION = 20
 WIDTH = 640
 HEIGHT = 481
 
+INTENSITY = 5
+
 def changeAlpha(val):
     global polys
     polys = genPolys(torrus, 2 * pi, 2 * pi, PRECISION, float(alpha.get()), float(beta.get()))
@@ -112,7 +114,7 @@ def draw():
     polys = sorted(polys, key = lambda x : tMat.dot(np.append(x[0], 1))[2])
     for poly in polys:
         polyProj = list(map(lambda x : tMat.dot(np.append(x, 1)[:, np.newaxis]), poly))
-        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000FF', outline='#000000')
+        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000' + "{0:02X}".format(max(0, min(255, int(INTENSITY * polyProj[0][2])))), outline='#000000')
     end = time.time()
     print("Rendering took", end - start)
 
