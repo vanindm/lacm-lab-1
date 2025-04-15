@@ -13,7 +13,7 @@ PRECISION = 30
 WIDTH = 640
 HEIGHT = 481
 
-INTENSITY = 5
+INTENSITY = 2
 
 def changeAlpha(val):
     global polys
@@ -33,16 +33,16 @@ beta.pack(anchor=CENTER, expand=1)
 canvas.pack(anchor=CENTER, expand=1)
 
 def screw(u, v, alpha, beta):
-    return np.array([(alpha * u * cos(u) ) * cos(u), (beta * u * sin(u)), v])
+    return np.array([(alpha * u * cos(u) ), (beta * u * sin(u)), v])
 
 def genPolys(f, maxU, minV, maxV, precision, alpha, beta):
     polys = []
     for t1 in range(precision):
         for t2 in range(precision):
             polys.append((
-                    f(((t1) * maxU / precision), ((t2 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1) * maxU / precision), ((t2 + 1 - precision / 2) * (maxV - minV) / precision), alpha, beta),
-                    f(((t1+1) * maxU / precision), ((t2 + 1 - precision / 2) * (maxV - minV) / precision), alpha, beta),
+                    f(((t1) * maxU / precision), ((t2 - (precision / 2)) * (maxV - minV) / precision), alpha, beta),
+                    f(((t1) * maxU / precision), ((t2 + 1 - (precision / 2)) * (maxV - minV) / precision), alpha, beta),
+                    f(((t1+1) * maxU / precision), ((t2 + 1 - (precision / 2)) * (maxV - minV) / precision), alpha, beta),
                     ))
             polys.append((
                     f(((t1) * maxU / precision), ((t2 - precision / 2) * (maxV - minV) / precision), alpha, beta),
@@ -112,7 +112,7 @@ def draw():
     polys = sorted(polys, key = lambda x : tMat.dot(np.append(x[0], 1))[2])
     for poly in polys:
         polyProj = list(map(lambda x : tMat.dot(np.append(x, 1)[:, np.newaxis]), poly))
-        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000' + "{0:02X}".format(max(0, min(255, int(INTENSITY * polyProj[0][2])))), outline='#000000')
+        canvas.create_polygon(int(polyProj[0][0] + WIDTH / 2), int(polyProj[0][1] + HEIGHT / 2), int(polyProj[1][0] + WIDTH / 2), int(polyProj[1][1] + HEIGHT / 2), int(polyProj[2][0] + WIDTH / 2), int(polyProj[2][1] + HEIGHT / 2), fill='#0000' + "{0:02X}".format(min(255, abs(int(INTENSITY * polyProj[0][2])))), outline='#000000')
 
 draw()
 
