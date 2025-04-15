@@ -13,7 +13,7 @@ PRECISION = 30
 WIDTH = 640
 HEIGHT = 481
 
-INTENSITY = 5
+INTENSITY = 10
 
 def changeAlpha(val):
     global polys
