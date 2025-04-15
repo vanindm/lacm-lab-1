@@ -65,60 +65,64 @@ $$ C\footnote{Число 64 было выбрано для большего ма
 \end{pmatrix}$$
 
 **Поворот вокруг оси OX**\
-$$ 
+```math
 R_{x}(\phi) = \begin{pmatrix}
 1 & 0 & 0 & 0\\
 0 & \cos \phi & -\sin \phi & 0\\
 0 & \sin \phi & \cos \phi & 0\\
 0 & 0 & 0 & 1
 \end{pmatrix}
-$$
-$$
+```
+```math
 C' = R_{x}(\phi) \cdot C\footnote{Матрица камеры}
-$$
+```
 
 **Поворот вокруг оси OY**\
-$$ 
+```math
 R_{y}(\phi) = \begin{pmatrix}
 \cos \phi & 0 & \sin \phi & 0\\
 0 & 1 & 0 & 0\\
 -\sin \phi & 0 & \cos \phi & 0\\
 0 & 0 & 0 & 1
 \end{pmatrix}
-$$
-$$
+```
+```math
 C' = R_{y}(\phi) \cdot C
-$$
+```
 
 **Поворот вокруг оси OZ**\
-$$ 
+```math
 R_{z}(\phi) = \begin{pmatrix}
 \cos \phi & -\sin \phi & 0 & 0\\
 \sin \phi & \cos \phi & 0 & 0\\
 0 & 0 & 1 & 0\\
 0 & 0 & 0 & 1
 \end{pmatrix}
-$$
-$$
+```
+```math
 C' = R_{z}(\phi) \cdot C
-$$
+```
 
 **Приближение/отдаление камеры**\
-$$ C' = 1.1C$$
-$$C' = \frac{1}{1.1}C$$
+```math
+C' = 1.1C
+```
+```math
+C' = \frac{1}{1.1}C
+```
 
 **Проецирование полигона (треугольника)**\
-$$
+```math
 P = \begin{pmatrix}
 p_{1 1} & p_{1 2} & p_{1 3} & 0\\
 p_{2 1} & p_{2 2} & p_{2 3} & 0\\
 p_{3 1} & p_{3 2} & p_{3 3} & 0\\
 0 & 0 & 0 & 1
 \end{pmatrix}
-$$
-$$
+```
+```math
 P' = C \cdot P
-$$
+```
 
 # Иллюстрации
 
